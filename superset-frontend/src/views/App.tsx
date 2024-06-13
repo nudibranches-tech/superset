@@ -40,8 +40,6 @@ import { logEvent } from 'src/logger/actions';
 import { store } from 'src/views/store';
 import { RootContextProviders } from './RootContextProviders';
 import { ScrollToTop } from './ScrollToTop';
-import { MainWrapper } from 'src/etai/styles/MainWrapper.styles';
-import { AiDrawer } from 'src/etai/components';
 
 setupApp();
 setupPlugins();
@@ -80,24 +78,17 @@ const App = () => (
         data={bootstrapData.common.menu_data}
         isFrontendRoute={isFrontendRoute}
       />
-      <MainWrapper>
-        <div>
-          <Switch>
-            {routes.map(
-              ({ path, Component, props = {}, Fallback = Loading }) => (
-                <Route path={path} key={path}>
-                  <Suspense fallback={<Fallback />}>
-                    <ErrorBoundary>
-                      <Component user={bootstrapData.user} {...props} />
-                    </ErrorBoundary>
-                  </Suspense>
-                </Route>
-              ),
-            )}
-          </Switch>
-        </div>
-        <AiDrawer open />
-      </MainWrapper>
+      <Switch>
+        {routes.map(({ path, Component, props = {}, Fallback = Loading }) => (
+          <Route path={path} key={path}>
+            <Suspense fallback={<Fallback />}>
+              <ErrorBoundary>
+                <Component user={bootstrapData.user} {...props} />
+              </ErrorBoundary>
+            </Suspense>
+          </Route>
+        ))}
+      </Switch>
       <ToastContainer />
     </RootContextProviders>
   </Router>
